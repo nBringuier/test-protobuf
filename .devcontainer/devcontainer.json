@@ -1,0 +1,28 @@
+{
+  "name": "Protobuf Dev Container",
+  "build": {
+    "dockerfile": "Containerfile",
+    "context": "."
+  },
+
+  // Dossier ouvert par défaut dans le conteneur
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // Extensions VS Code installées automatiquement
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "zxh404.vscode-proto3",
+        "ms-vscode.makefile-tools"
+      ]
+    }
+  },
+
+  // Utilisateur par défaut (doit correspondre à celui créé dans le Containerfile)
+  "remoteUser": "user",
+
+  "forwardPorts": [
+    4200,
+    8080
+  ]
+}

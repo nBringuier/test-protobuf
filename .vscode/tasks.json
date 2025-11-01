@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build container image",
+            "type": "shell",
+            "command": "docker build ${workspaceFolder}/.devcontainer/ -f ${workspaceFolder}/.devcontainer/Containerfile -t dev/protobuf && docker system prune -f",
+            "group": "build"
+        },
+        {
+            "label": "Build interface libs",
+            "type": "shell",
+            "command": "make all",
+            "options": {
+                "cwd": "${workspaceFolder}/lib-proto"
+            },
+            "group": "build"
+        },
+        {
+            "label": "Run Quarkus app",
+            "type": "shell",
+            "isBackground": true,
+            "command": "mvn quarkus:dev",
+            "options": {
+                "cwd": "${workspaceFolder}/app-quarkus"
+            }
+        }
+    ]
+}

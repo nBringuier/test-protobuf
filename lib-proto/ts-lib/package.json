@@ -1,0 +1,17 @@
+{
+  "name": "person-proto-lib",
+  "version": "1.0.0",
+  "main": "lib/person_pb.js",
+  "types": "lib/person_pb.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf lib"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.10.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@bufbuild/protoc-gen-es": "^2.10.0"
+  }
+}

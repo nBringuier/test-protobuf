@@ -1,0 +1,21 @@
+FROM oraclelinux:9-slim
+
+RUN microdnf module enable maven:3.9 nodejs:22 
+RUN microdnf install git unzip maven nodejs npm gcc-c++
+RUN curl -L https://github.com/protocolbuffers/protobuf/releases/download/v33.0/protoc-33.0-linux-x86_64.zip -o /root/protoc-33.0-linux-x86_64.zip
+RUN unzip /root/protoc-33.0-linux-x86_64.zip -d /root/protoc
+RUN cp /root/protoc/bin/protoc /usr/local/bin/
+RUN cp -r /root/protoc/include/google/ /usr/local/include/
+RUN rm -rf /root/protoc*
+RUN useradd --create-home --shell /bin/bash user
+RUN microdnf clean all
+
+USER user
+RUN mkdir ~/.npm
+RUN npm config set prefix '~/.npm'
+RUN echo 'export PATH="$HOME/.npm/bin:$PATH"' >> ~/.bashrc
+RUN npm install -g @angular/cli@19
+
+WORKDIR /home/user
+
+CMD ["bash"]

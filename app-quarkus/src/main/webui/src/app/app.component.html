@@ -1,0 +1,12 @@
+<div *ngIf="personService.person() as person">
+  <p><strong>ID :</strong> {{ person.id }}</p>
+  <p><strong>Name :</strong> {{ person.name }}</p>
+  <p><strong>Age :</strong> {{ person.age }}</p>
+  <p><strong>Genre :</strong> {{ Gender[person.gender] }}</p>
+  <!-- <p><strong>Texte :</strong> {{ person.text }}</p>
+  <p><strong>Tags :</strong></p>
+  <ul>
+    <li *ngFor="let tag of message.tags">{{ tag }}</li>
+  </ul> -->
+</div>
+<button (click)="onClick()">Send random ID</button>

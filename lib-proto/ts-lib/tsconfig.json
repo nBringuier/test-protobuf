@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Sortie du compilateur */
+    "outDir": "lib",                    // dossier de sortie (.js / .d.ts)
+    "rootDir": "src",                   // dossier source où se trouvent les .ts
+    "declaration": true,                // génère les .d.ts (types)
+    "sourceMap": true,                  // utile pour debugger
+
+    /* Cible du JS produit */
+    "target": "ES2020",                 // niveau de JS produit
+    "module": "ESNext",                 // ESM (correspond à import/export)
+    "moduleResolution": "node",         // pour que les imports relatifs .js fonctionnent
+
+    /* Compatibilité / sécurité */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "lib"]
+}

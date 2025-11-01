@@ -1,0 +1,7 @@
+app-quarkus/target/
+lib-proto/java-lib/target/
+lib-proto/java-lib/src/
+lib-proto/ts-lib/node_modules/
+lib-proto/ts-lib/lib/
+lib-proto/ts-lib/src/
+lib-proto/ts-lib/*.tgz
