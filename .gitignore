@@ -5,3 +5,5 @@ lib-proto/ts-lib/node_modules/
 lib-proto/ts-lib/lib/
 lib-proto/ts-lib/src/
 lib-proto/ts-lib/*.tgz
+lib-proto/rust-lib/target/
+lib-proto/rust-lib/src/generated/

@@ -4,16 +4,16 @@ OUT_DIR   := build
 
 JAVA_OUT  := java-lib/src/main/java/
 TS_OUT    := ts-lib/src/
+RUST_OUT  := rust-lib/src/generated/
 C_OUT     := $(OUT_DIR)/c
 
 PROTOC ?= protoc
 
 .PHONY: all java ts c rpm clean
 
-all: java ts
+all: java ts rust
 
 # --- Java (Maven) ---
-# génère .java dans build/java, puis appelle mvn package du module java-lib
 java:
 	@echo "----- Java lib generation -----"
 	@echo "Cleaning..."
@@ -39,6 +39,18 @@ ts:
 	@( cd ts-lib && npm run build )
 	@echo "Typescript lib generated !"
 
+# --- Rust / Cargo ---
+rust:
+	@echo "----- Rust lib generation -----"
+	@echo "Cleaning..."
+	@rm -rf $(RUST_OUT)
+	@mkdir -p $(RUST_OUT)
+	@echo "Generating Rust sources..."
+	@$(PROTOC) --prost_out=$(RUST_OUT) -I$(PROTO_DIR) $(PROTO_DIR)/*.proto
+	@echo "Running cargo build..."
+	@( cd rust-lib && cargo build --release )
+	@echo "Rust lib generated !"
+
 # --- C (protobuf-c) ---
 c:
 	mkdir -p $(C_OUT)
@@ -56,4 +68,5 @@ clean:
 	rm -rf $(OUT_DIR)/*
 	( cd java-lib && mvn -q clean ) || true
 	( cd ts-lib && rm -rf node_modules dist lib ) || true
+	( cd rust-lib && cargo clean ) || true
 	( cd c-lib && make clean ) || true
