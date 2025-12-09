@@ -1,13 +1,24 @@
 FROM oraclelinux:9-slim
 
 RUN microdnf module enable maven:3.9 nodejs:22 
-RUN microdnf install git unzip maven nodejs npm gcc-c++ rust cargo
-RUN curl -L https://github.com/protocolbuffers/protobuf/releases/download/v33.0/protoc-33.0-linux-x86_64.zip -o /root/protoc-33.0-linux-x86_64.zip
-RUN unzip /root/protoc-33.0-linux-x86_64.zip -d /root/protoc
-RUN cp /root/protoc/bin/protoc /usr/local/bin/
-RUN cp -r /root/protoc/include/google/ /usr/local/include/
-RUN rm -rf /root/protoc*
+RUN microdnf install git unzip maven nodejs npm gcc-c++ cmake rust cargo
 
+# RUN curl -L https://github.com/protocolbuffers/protobuf/releases/download/v33.0/protoc-33.0-linux-x86_64.zip -o /root/protoc-33.0-linux-x86_64.zip
+# RUN unzip /root/protoc-33.0-linux-x86_64.zip -d /root/protoc
+# RUN cp /root/protoc/bin/protoc /usr/local/bin/
+# RUN cp -r /root/protoc/include/google/ /usr/local/include/
+# RUN rm -rf /root/protoc*
+
+RUN \
+    curl -L https://github.com/protocolbuffers/protobuf/releases/download/v33.2/protobuf-33.2.tar.gz -o /root/protobuf-33.2.tar.gz && \
+    tar xzf /root/protobuf-33.2.tar.gz -C /root/ && \
+    cd /root/protobuf-33.2 && \
+    mkdir -p build && \
+    cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_ABSL_PROVIDER=package -Dprotobuf_BUILD_EXAMPLES=OFF && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig
 
 RUN useradd --create-home --shell /bin/bash user
 RUN microdnf clean all

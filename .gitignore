@@ -7,3 +7,6 @@ lib-proto/ts-lib/src/
 lib-proto/ts-lib/*.tgz
 lib-proto/rust-lib/target/
 lib-proto/rust-lib/src/generated/
+lib-proto/c-lib/obj/
+lib-proto/c-lib/bin/
+lib-proto/c-lib/src/generated/

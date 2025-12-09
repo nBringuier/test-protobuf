@@ -1,13 +1,12 @@
 syntax = "proto3";
 
-package exemple.person;
-
-import "google/protobuf/timestamp.proto";
+package myproto;
 
 // Optionnel : pour générer des classes dans des namespaces adaptés
 // option java_package = "com.exemple";
 option java_multiple_files = true;
 option java_outer_classname = "PersonProto";
+option java_package = "com.exemple";
 option optimize_for = SPEED;
 
 // Exemple d’énumération : le sexe biologique ou genre
@@ -24,6 +23,6 @@ message Person {
   string name = 2;             // nom complet
   uint32 age = 3;              // âge (non signé)
   Gender gender = 4;           // sexe (enum)
-  google.protobuf.Timestamp birth_date = 5;  // date de naissance (message structuré)
+  uint64 birth_date = 5;       // date de naissance (message structuré)
   repeated string emails = 6;  // exemple de champ répétable
 }

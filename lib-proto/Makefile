@@ -5,13 +5,13 @@ OUT_DIR   := build
 JAVA_OUT  := java-lib/src/main/java/
 TS_OUT    := ts-lib/src/
 RUST_OUT  := rust-lib/src/generated/
-C_OUT     := $(OUT_DIR)/c
+C_OUT     := c-lib/src/generated
 
 PROTOC ?= protoc
 
 .PHONY: all java ts c rpm clean
 
-all: java ts rust
+all: java ts rust c
 
 # --- Java (Maven) ---
 java:
@@ -53,16 +53,14 @@ rust:
 
 # --- C (protobuf-c) ---
 c:
-	mkdir -p $(C_OUT)
-	# Génère C via protoc-gen-c (fourni par protobuf-c)
-	$(PROTOC) --plugin=protoc-gen-c=protoc-gen-c --c_out=$(C_OUT) -I$(PROTO_DIR) $(PROTO_DIR)/*.proto
-	# build library (static)
-	( cd c-lib && make PROTO_SRCDIR=$(abspath $(C_OUT)) )
-
-# --- RPM packaging for the C library ---
-rpm: c
-	# Assume c-lib/Makefile produces libmylib.a and headers into c-lib/dist/
-	( cd rpm && rpmbuild -bb --define "_topdir $(PWD)/rpm" mylib.spec )
+	@echo "----- C lib generation -----"
+	@echo "Cleaning..."
+	@rm -rf $(C_OUT)
+	@mkdir -p $(C_OUT)
+	@echo "Generating C sources..."
+	@$(PROTOC) --upb_out=$(C_OUT) --upbdefs_out=$(C_OUT) --upb_minitable_out=$(C_OUT) -I$(PROTO_DIR) $(PROTO_DIR)/*.proto
+	@echo "Testing C build..."
+	@( cd c-lib && make clean && make && ./bin/test_person )
 
 clean:
 	rm -rf $(OUT_DIR)/*
